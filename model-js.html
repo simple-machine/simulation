@@ -6,224 +6,91 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
   
-<script>
-	var wheel_angle = 0;
-	var timer = 0;
-	var cycleTimer = 0;
-	var cycle = 0;
-	var motorPower = 0;
-	var frameRate = 20; //ms
-	var throughput = 0;
-	var previousStroke = 0;
-	
-$(document).ready(function() {
-
-// This is the image of the wheel
-$("#wheel").attr('src', 'data:image/png;base64,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');
-
-    
-	$('#run').change(function() {
-		timer = 0;
-		cycleTimer = 0;
-		cycle = 0;
-		wheel_angle = 0;
-		throughput = 0;
-		run();
-		//runTimer();
-	});
-
-	$('#motor-power').change(function() {
-		motorPower = parseInt($('#motor-power').val());
-	});
-
-	
-});
-
-
-
-
-function run() {
-	//console.log(motorPower);
-	wheel_angle += motorPower;
-	if(wheel_angle > 359 || wheel_angle < 0) wheel_angle = 0; // restrict to 0 < angle < 360
-	
-	var area = Math.pow($("#bore").val()/2, 2) * Math.PI;
-	var radius = $("#radius").val();
-	var fullStroke = radius * 2;
-	var fullStrokeDisplacement = area * fullStroke;
-	
-	var tidalVolume = $("#tidalVolume").val();
-
-	var tidalStroke = tidalVolume / area;
-	var tidalAngle;
-	var stroke = radius -  radius * Math.cos( wheel_angle * Math.PI / 180 );
-	
-	var displacement = area * stroke;
-	
-	// accumulate positive displacement to calculate throughput
-	if (stroke - previousStroke > 0) {
-		throughput += displacement - area * previousStroke ;
-	}
-	previousStroke = stroke;
-	
-	// angle required to reach tidal volume
-	if (tidalVolume >= fullStrokeDisplacement) {
-		tidalAngle = 180; // Avoid division by zero
-	}
-	else {
-		tidalAngle = Math.acos( (radius - tidalStroke) / radius ) * 180/Math.PI;
-	}
-	
-	$(".fs").text(fullStroke);
-
-	$(".fsd").text(Math.round( fullStrokeDisplacement ));
-
-	$(".stroke").text( Math.round(stroke) );
-
-	$(".displacement").text(Math.round( displacement ) );
-
-	$(".throughput").text(Math.round( throughput * 10) / 10000);
-
-
-	$(".ta").text(  Math.round( tidalAngle ) );
-
-	if (wheel_angle >= tidalAngle ) {
-		cycle = 1;
-		motorPower = - motorPower;
-	}
-	else if ( wheel_angle <= 0 ) {
-		cycle = 0;
-		//console.log(timer);
-		motorPower = - motorPower;
-	}
-
-	setWheelAngle(wheel_angle);
-	
-	// Just the appearance of motion...
-	setManometerHeight('ip', wheel_angle*.3);	
-	setManometerHeight('flow', wheel_angle*.1);	
-	setManometerHeight('o2', 5);	
-	
-	if (document.getElementById('run').checked == 1) {
-		setTimeout(function() {run();}, frameRate);
-	}
-
-}
-
-// ms timer
-function runTimer() {
-	timer += 1;
-	if (document.getElementById('run').checked == 1) {
-		setTimeout(function() {runTimer();}, 1);
-	}
-}
-
-function setWheelAngle(angle) {
-	$('#wheel').css({ WebkitTransform: 'rotate('+angle+'deg)'});
-	$(".wheel-holder .value").text(angle);	
-	$("#cv-rotation").val(angle);	
-}
-
-function setManometerHeight(selector, height) {
-	$('#' + selector + ' .left').css({ height: 100+height });		
-	$('#' + selector + ' .right').css({ height: 100-height});	
-	$('#' + selector + ' .value').text(Math.round(height));	
-	$("#cv-"+selector).val(Math.round(height, 3));	
-}
-
-</script>
-<style>
-	.simulator {position: relative}
-	.simulator .wheel-holder { position: absolute; left: 0px}
-
-	.wheel-holder {position: relative; background-color: gray; height: 240px; width: 200px; }
-	.wheel-holder .reading {position: absolute; top: 0px; }
-	.wheel-holder .right {position: absolute; top: 0px; right: 0px }
-	.wheel-holder .under {position: absolute; top: 15px; }
-	#wheel {position: absolute; bottom: 0px }
-	.manometer	{position: relative; height:240px; width:60px; border: 1px black solid}
-	.manometer .left, .manometer .right {position: absolute; height:100px; width:10px; border: 1px black solid; left:10px; bottom: 0px; background-color: red}
-	.manometer .right {left: 40px}
-
-	#ip {position: absolute; left: 300px}
-	#o2 {position: absolute; left: 500px}
-	#o2 .left, #o2 .right {background-color: blue}
-	#flow {position: absolute; left: 400px}
-	#flow .left, #flow .right {background-color: green}
-	
-	.run {font-size: 2em }
-	
-	.machine {postion: relative; height: 330px}
-	.machine .control {position: absolute; left: 0px}
-	.machine .interface {position: absolute; left: 400px}
-	
-</style>
+<script src="main.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="run">
 RUN	<input type="checkbox" id="run" value="1"> (Check Me!)
 </div>
 <div class="machine">
-<div class="control">
-<h1>Settings</h1>
-<div class="machine-parameters">
-	<div>Bore <input type="text" id="bore" value="15"> cm</div>
-	<div>Radius <input type="text" id="radius" value="10"> cm</div>
-	<div>Rate <input type="text" id="inspirationsPerMinute" value="15"> insp/min</div>
-	<div>Tidal <input type="text" id="tidalVolume" value="700"> ml</div>
-</div>
-<h1>Derived</h1>
-<div id="output" class="derived-parameters">
-	<div>Full Stroke: <span class="fs">n/a</span> cm</div>
-	<div>Full Stroke Displacement: <span class="fsd">n/a</span> ml</div>
-	<div>Tidal Angle: <span class="ta">n/a</span> degrees</div>
-	<div>Throughput: <span class="throughput">n/a</span> l</div>
-</div>
-</div>
-
-<div class="interface">
-<h1>Serial Interface</h1>
-<div>Power (signed)<input type="text" id="motor-power" value="0"></div>
-
-<h1>Computer Vision Interface</h1>
-<div>Rotation <input type="text" id="cv-rotation" value="0">deg</div>
-<div>PI <input type="text" id="cv-ip" value="0"> mm H2O</div>
-<div>Flow <input type="text" id="cv-flow" value="0"> mm H2O</div>
-<div>O2 <input type="text" id="cv-o2" value="0"> mm H2O</div>
-
-</div>
-
-</div>
-<h1>Simulator</h1>
-
-<div class="simulator">
-	<div class="wheel-holder">
-		<div class="reading"><span class="value">0</span> deg</div>
-		<div class="under">Stroke: <span class="stroke">n/a</span> ml</div>
-		<div class="right">Displacement: <span class="displacement">n/a</span> ml</div>
-		<img src="" id="wheel">
-		
+	<div class="control">
+		<h1>Settings</h1>
+		<div class="machine-parameters">
+			<div>Bore <input type="text" id="bore" value="15"> cm</div>
+			<div>Radius <input type="text" id="radius" value="10"> cm</div>
+			<div>Rate <input type="text" id="inspirationsPerMinute" value="15"> insp/min</div>
+			<div>Tidal <input type="text" id="tidalVolume" value="700"> ml</div>
+		</div>
+		<h1>Derived</h1>
+		<div id="output" class="derived-parameters">
+			<div>Full Stroke: <span class="fs">n/a</span> cm</div>
+			<div>Full Stroke Displacement: <span class="fsd">n/a</span> ml</div>
+			<div>Tidal Angle: <span class="ta">n/a</span> degrees</div>
+			<div>Throughput: <span class="throughput">n/a</span> l</div>
+		</div>
 	</div>
-	<div class="manometer" id="ip">
-		<div class="title">IP</div>
-		<div class="reading"><span class="value">0</span>mm H2O</div>
-		<div class="left"></div>
-		<div class="right"></div>
+
+	<div class="interface">
+		<h1>Serial Interface</h1>
+		<div>Power (signed)<input type="text" id="motor-power" value="0"></div>
+		<div><span class="power-up">[+]</span> <span class="power-down">[-]</span></div>
+
+		<h1>Computer Vision Interface</h1>
+		<div>Rotation <input type="text" id="cv-rotation" value="0">deg</div>
+		<div>PI <input type="text" id="cv-ip" value="0"> cm H2O</div>
+		<div>Flow <input type="text" id="cv-flow" value="0"> cm H2O</div>
+		<div>O2 <input type="text" id="cv-o2" value="0"> cm H2O</div>
+
 	</div>
-	<div class="manometer" id="flow">
-		<div class="title">FLOW</div>
-		<div class="reading"><span class="value">0</span>mm H2O</div>
-		<div class="left"></div>
-		<div class="right"></div>
-	</div>
-	<div class="manometer" id="o2">
-		<div class="title">O2</div>
-		<div class="reading"><span class="value">0</span>mm H2O</div>
-		<div class="left"></div>
-		<div class="right"></div>
+
+	<div class="simulator">
+		<h1>Simulator</h1>
+		<div class="wheel-holder">
+			<div class="reading"><span class="value">0</span> deg</div>
+			<div class="under">Stroke: <span class="stroke">n/a</span> ml</div>
+			<div class="right">Displacement: <span class="displacement">n/a</span> ml</div>
+			<img src="wheel.png" id="wheel">
+		</div>
+		<div class="manometer" id="ip">
+			<div class="title">IP</div>
+			<div class="reading"><span class="value">0</span>cm H2O</div>
+			<div class="left"></div>
+			<div class="right"></div>
+		</div>
+		<div class="manometer" id="flow">
+			<div class="title">FLOW</div>
+			<div class="reading"><span class="value">0</span>cm H2O</div>
+			<div class="left"></div>
+			<div class="right"></div>
+		</div>
+		<div class="manometer" id="o2">
+			<div class="title">O2</div>
+			<div class="reading"><span class="value">0</span>cm H2O</div>
+			<div class="left"></div>
+			<div class="right"></div>
+		</div>
 	</div>
 </div>
-	
-</canvas>
+<div class="host">
+	<h1>Ventilation Settings</h1>
+	<div class="ventilator-parameters">
+		<div>Rate <input type="text" id="rate" value="15"> b/m</div>
+		<div>PIP <input type="text" id="pip" value="10"> cm H2O</div>
+		<div>PEEP <input type="text" id="peep" value="15"> cm H20</div>
+		<div>Tidal <input type="text" id="tv" value="1000"> ml</div>
+	</div>
+
+	<h1>Patient Model</h1>
+	<div class="patient-simulator">
+		(Patient modelled as water column and orifice size)
+		<div>Area <input type="text" id="patient-area" value="2000"> cm^2</div>
+		<div>"Throat" <input type="text" id="throat" value="1"> cm^2</div>
+	</div>
+
+
+<div>
+
+
 </body>
 </html>
