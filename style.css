@@ -1,0 +1,25 @@
+h1 {font-size: 1em }
+.simulator {position: relative}
+.simulator .wheel-holder { position: absolute; left: 0px}
+
+.wheel-holder {position: relative; background-color: gray; height: 240px; width: 200px; }
+.wheel-holder .reading {position: absolute; top: 0px; }
+.wheel-holder .right {position: absolute; top: 0px; right: 0px }
+.wheel-holder .under {position: absolute; top: 15px; }
+#wheel {position: absolute; bottom: 0px }
+.manometer	{position: relative; height:240px; width:60px; border: 1px black solid}
+.manometer .left, .manometer .right {position: absolute; height:100px; width:10px; border: 1px black solid; left:10px; bottom: 0px; background-color: red}
+.manometer .right {left: 40px}
+
+#ip {position: absolute; left: 210px}
+#o2 {position: absolute; left: 280px}
+#o2 .left, #o2 .right {background-color: blue}
+#flow {position: absolute; left: 350px}
+#flow .left, #flow .right {background-color: green}
+
+.run {font-size: 2em }
+
+.machine {postion: relative; height: 330px}
+.machine .control {position: absolute; left: 0px}
+.machine .interface {position: absolute; left: 400px}
+.machine .simulator {position: absolute; left: 800px}
