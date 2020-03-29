@@ -3,10 +3,11 @@ var timer = 0;
 var cycleTimer = 0;
 var cycle = 0;
 var motorPower = 0;
-var frameRate = 20; //ms
+var frameTime = 50; //ms
 var throughput = 0;
 var previousStroke = 0;
 var patientHeight = 0;
+var currentCycleTime = 0;
 	
 $(document).ready(function() {
     
@@ -18,6 +19,7 @@ $(document).ready(function() {
 		throughput = 0;
 		previousStroke = 0;
 		patientHeight = 0;
+		currentCycleTime = 0;
 		run();
 		//runTimer();
 	});
@@ -38,6 +40,7 @@ $(document).ready(function() {
 });
 
 
+
 function run() {
 	//console.log(motorPower);
 	wheel_angle += motorPower;
@@ -53,14 +56,51 @@ function run() {
 
 	var tidalStroke = tidalVolume / area;
 	var tidalAngle;
-	var stroke = radius -  radius * Math.cos( wheel_angle * Math.PI / 180 );
+	var stroke = radius - radius * Math.cos( wheel_angle * Math.PI / 180 );
 	
 	var displacement = area * stroke;
 	
+	var rate = $("#rate").val();
 	var patientArea = $("#patient-area").val();
 	var throat = parseFloat( $("#throat").val());
+	var exhaleToInhale = parseFloat( $("#exin").val());
+
+	var cycleTime = 60000 / rate; // ms
+	
+	var inhalationTime = cycleTime / ( 1 + exhaleToInhale );
+	var exhalationTime = cycleTime - inhalationTime;
+	var inhaleVolumePerFrame = tidalVolume / (inhalationTime / frameTime);
+
+	if (currentCycleTime > cycleTime) currentCycleTime = 0;
+	
+	if (true && currentCycleTime < inhalationTime) {
+		// inhale
+		// move wheel enough to flow inhaleVolumePerFrame
+		$(".wheel-holder").css({'background-color': 'lightgreen'});
+		var targetStroke = stroke + (inhaleVolumePerFrame / area);
+		var targetAngle = Math.acos( (radius - targetStroke) / radius ) * 180/Math.PI;
+
+		setMotorPower( Math.abs(Math.round(targetAngle - wheel_angle)) );
+		//console.log("target stroke: " +targetStroke + "target angle: "+ targetAngle + "diff " + (wheel_angle - targetAngle));		
+	}
+	else if (currentCycleTime < (inhalationTime + exhalationTime)) {
+		// exhale - return to tdc before exhalationTime runs out
+		$(".wheel-holder").css({'background-color': 'pink'});
+		if ( wheel_angle > 180  ) { 
+			setMotorPower(1);
+		}
+		else if ( wheel_angle > 2 && wheel_angle < 180 ) {
+			setMotorPower(-5);
+		}
+		else {
+			setMotorPower(0);
+		}
+		
+	}
+	currentCycleTime += frameTime;
 	
 	var flow = 0;
+
 	// accumulate positive displacement to calculate throughput
 	if (stroke - previousStroke > 0) {
 		flow = displacement - area * previousStroke;
@@ -99,18 +139,7 @@ function run() {
 
 	$(".ta").text(  Math.round( tidalAngle ) );
 
-/*
-	if (wheel_angle >= tidalAngle ) {
-		cycle = 1;
-		motorPower = - motorPower;
-	}
-	else if ( wheel_angle <= 0 ) {
-		cycle = 0;
-		//console.log(timer);
-		motorPower = - motorPower;
-	}
-*/
-
+	
 	setWheelAngle(wheel_angle);
 	
 	setManometerHeight('ip', patientHeight);
@@ -122,11 +151,11 @@ function run() {
 	setManometerHeight('o2', 5);	
 
 	if ($('#run').is(":checked") == true) {
-		setTimeout(function() {run();}, frameRate);
+		setTimeout(function() {run();}, frameTime);
 	}
 	
 	if ($('#run-host').is(":checked") == true) {
-		setTimeout(function() {run();}, frameRate);
+		setTimeout(function() {run();}, frameTime);
 	}
 }
 
@@ -138,6 +167,12 @@ function runTimer() {
 	}
 }
 
+function setMotorPower(power) {
+	if (power > 0 && power > 10) power = 10;
+	if (power < 0 && power < -10) power = -10;
+	motorPower = power;
+	$("#motor-power").val(motorPower);
+}
 function setWheelAngle(angle) {
 	$('#wheel').css({ WebkitTransform: 'rotate('+angle+'deg)'});
 	$(".wheel-holder .value").text(angle);	
