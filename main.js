@@ -145,7 +145,7 @@ function run() {
 	setManometerHeight('ip', patientHeight);
 	
 	// TODO calculate differential pressure created by flow across orifice
-	setManometerHeight('flow', flow);	
+	setManometerHeight('flow', flow/3);	
 	
 	// TODO simulate O2 flowrate adjustment (turning knobs)
 	setManometerHeight('o2', 5);	

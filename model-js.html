@@ -17,7 +17,7 @@ RUN	<input type="checkbox" id="run" value="1"> (Check Me!)
 	<div class="control">
 		<h1>Settings</h1>
 		<div class="machine-parameters">
-			<div>Bore <input type="text" id="bore" value="15"> cm</div>
+			<div>Bore <input type="text" id="bore" value="12"> cm</div>
 			<div>Radius <input type="text" id="radius" value="10"> cm</div>
 			<div>Rate <input type="text" id="inspirationsPerMinute" value="15"> insp/min</div>
 			<div>Tidal <input type="text" id="tidalVolume" value="1600"> ml</div>
@@ -48,7 +48,7 @@ RUN	<input type="checkbox" id="run" value="1"> (Check Me!)
 		<h1>Simulator</h1>
 		<div class="wheel-holder">
 			<div class="reading"><span class="value">0</span> deg</div>
-			<div class="under">Stroke: <span class="stroke">n/a</span> ml</div>
+			<div class="under">Stroke: <span class="stroke">n/a</span> cm</div>
 			<div class="right">Displacement: <span class="displacement">n/a</span> ml</div>
 			<img src="wheel.png" id="wheel">
 		</div>
@@ -79,14 +79,14 @@ RUN	<input type="checkbox" id="run" value="1"> (Check Me!)
 		<div>PIP <input type="text" id="pip" value="10"> cm H2O</div>
 		<div>PEEP <input type="text" id="peep" value="15"> cm H20</div>
 		<div>Tidal <input type="text" id="tv" value="1000"> ml</div>
-		<div>Exhale:Inhale <input type="text" id="exin" value="1.5">:1</div>
+		<div>Exhale:Inhale <input type="text" id="exin" value="2">:1</div>
 	</div>
 
 	<h1>Patient Model</h1>
 	<div class="patient-simulator">
 		(Patient modelled as water column and orifice size)
 		<div>Area <input type="text" id="patient-area" value="500"> cm^2</div>
-		<div>"Throat" <input type="text" id="throat" value="1"> cm^2</div>
+		<div>"Throat" <input type="text" id="throat" value=".75"> cm^2</div>
 	</div>
 
 
