@@ -110,12 +110,12 @@ function run() {
 	
 	if (flow > 0) {
 		// flow has gone into patient column
-		patientHeight += flow / area;
+		patientHeight += flow / patientArea;
 	}
 	else {
 		// exhaling
 		var expiration = 10 * Math.sqrt(patientHeight) * Math.pow(throat, 2); // TODO replace with real calc
-		patientHeight -= expiration / area;
+		patientHeight -= expiration / patientArea;
 		if (patientHeight < 0) patientHeight = 0;
 	}
 	// angle required to reach tidal volume

@@ -19,7 +19,7 @@ h1 {font-size: 1em }
 
 .run {font-size: 2em }
 
-.machine {postion: relative; height: 330px}
+.machine {postion: relative; height: 300px}
 .machine .control {position: absolute; left: 0px}
-.machine .interface {position: absolute; left: 400px}
-.machine .simulator {position: absolute; left: 800px}
+.machine .interface {position: absolute; left: 350px}
+.machine .simulator {position: absolute; left: 700px}
